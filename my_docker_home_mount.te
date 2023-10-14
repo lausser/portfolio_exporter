@@ -1,0 +1,31 @@
+
+module my_docker_home_mount 1.0;
+
+require {
+	type container_t;
+	type init_t;
+	type user_home_t;
+	type kernel_t;
+	type user_tmp_t;
+	type unconfined_t;
+	type semanage_store_t;
+	type dhcpc_t;
+	class file { map open read write };
+	class capability { chown dac_override };
+	class system syslog_read;
+	class unix_stream_socket connectto;
+}
+
+#============= container_t ==============
+allow container_t kernel_t:system syslog_read;
+allow container_t unconfined_t:unix_stream_socket connectto;
+allow container_t user_home_t:file { read write };
+allow container_t user_tmp_t:file { open write };
+
+#============= dhcpc_t ==============
+allow dhcpc_t self:capability { chown dac_override };
+
+#============= init_t ==============
+
+#!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
+allow init_t semanage_store_t:file map;
