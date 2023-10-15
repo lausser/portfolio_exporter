@@ -7,7 +7,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   
-name: Create Image from v-Tag
+name: Build and upload a Docker Image
 jobs:
   build:
     name: Create Release
