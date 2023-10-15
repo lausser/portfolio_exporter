@@ -94,10 +94,10 @@ server.listen(port, () => {
     await page.getByRole('button', { name: 'Anmelden' }).click();
     console.log("Anmelden angeklickt");
     await page.getByLabel('E-Mail oder Benutzername').click();
-    await page.getByLabel('E-Mail oder Benutzername').fill(process.env["ONVISTA_USERNAME"] || "guest");
+    await page.getByLabel('E-Mail oder Benutzername').fill(username);
     console.log(`Benutzername ${username} eingetippt`);
     await page.getByLabel('Passwort').click();
-    await page.getByLabel('Passwort').fill(process.env["ONVISTA_PASSWORD"] || "guest");
+    await page.getByLabel('Passwort').fill(password);
     console.log(`Password fuer ${username} eingetippt`);
     await page.getByRole('button', { name: 'Login bei my onvista' }).click();
     console.log("Loginknopf gedrueckt");
