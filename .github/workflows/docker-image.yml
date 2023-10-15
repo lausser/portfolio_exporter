@@ -1,7 +1,6 @@
 on:
-  push:
-    tags:
-      - 'v*' # trigger this when a tag starting with v is pushed
+  release:
+    types: [published]
 
 env:
   REGISTRY: ghcr.io
@@ -13,17 +12,6 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: De-v the release tag
-        id: de_v_tag
-        run: |
-          # Use the 'replace' function to remove the "v" from the tag
-          TAG="${{ github.ref }}"
-          TAG_WITHOUT_V="${TAG#refs/tags/v}"
-          echo "Extracted tag: $TAG_WITHOUT_V"
-          echo "tag_without_v=$TAG_WITHOUT_V" >> "$GITHUB_OUTPUT"
-      - name: Show the modified tag
-        run: |
-          echo "Modified tag: Release ${{ steps.de_v_tag.outputs.tag_without_v }}"
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Log in to the Container registry
