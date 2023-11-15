@@ -183,7 +183,7 @@ server.listen(port, () => {
       await page.locator('button:has-text("Bestand") span').click();
       await page.waitForSelector('button:has-text("Signale") span');
       let endTime = performance.now();
-      updateDuration.labels({portfolio: portfolio.toLowerCase()}).set(endTime - startTime);
+      updateDuration.labels({portfolio: portfolio.toLowerCase()}).set((endTime - startTime) / 1000.0);
       console.log("refresh "+portfolio);
     }
     // change the newIntervalValue. if things change heavily, then we might reduce the interval to 1 min.
