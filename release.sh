@@ -10,13 +10,14 @@ else
   echo install docker or podman
   exit 1
 fi
-alias podman="$container_runtime"
+alias docker="$container_runtime"
 
 USERNAME=lausser
 IMAGE=portfolio_exporter
 grep -q remote .git/config && git pull
 # bump version
-docker run --rm -v "$PWD":/app treeder/bump patch
+# labeldisable, weil Fedora so ein Dreck ist. Und Podman auch. Und SELinux erst recht.
+docker run --security-opt label=disable --rm -v "$PWD":/app treeder/bump patch
 version=`cat VERSION`
 echo "version: $version"
 pwversion=`awk -F: '$1 ~ /^FROM/ { print $2}' < Dockerfile`
