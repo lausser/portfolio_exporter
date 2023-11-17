@@ -14,3 +14,14 @@ chmod 644 $XAUTH
 podman run -it --rm -e DISPLAY=:0 --net=host -v /tmp/.X11-unix:/tmp/.X11-unix -v  $XAUTH:/tmp/.Xauthority -e XAUTHORITY=/tmp/.Xauthority:z -v `pwd`:/pwscripts:z --entrypoint bash dercontainerhier
 
 ```
+Mit Wayland ist das Gemurkse viel schlimmer.
+```
+podman run -it -v /run/user/1000/:/run/user/1000/ -e XDG_RUNTIME_DIR -e WAYLAND_DISPLAY --device=/dev/dri --security-opt label=disable registry.fedoraproject.org/fedora
+dnf --refresh upgrade
+dnf install weston
+dnf install glx-utils
+dnf install xorg-x11-server-Xwayland
+mkdir /tmp/.X11-unix/
+weston --backend=wayland-backend.so --xwayland
+```
+

@@ -171,7 +171,7 @@ server.listen(port, () => {
         console.log(`Im Portfolio ${portfolio} sind ${count} Stueck ${wkn} (${company_name}) und eins davon war vor ${ageInSeconds}s ${price}${currency} wert`);
         shareCount.labels({wkn: wkn, portfolio: portfolio.toLowerCase()}).set(count);
         //stockPrice.labels({wkn: wkn, currency: currency}).set(price);
-        stockPrice.labels({wkn: wkn, currency: "EUR"}).set(value / count); 
+        stockPrice.labels({wkn: wkn, currency: "EUR", name: company_name}).set(value / count); 
         lastPriceAge.labels({wkn: wkn}).set(ageInSeconds);
       }
       //await page.waitForSelector('button:has-text("Signale") span');
