@@ -38,7 +38,7 @@ const lastPriceAge = new promClient.Gauge({
 const stockPrice = new promClient.Gauge({
   name: 'stock_price',
   help: 'The price of one share',
-  labelNames: ['wkn', 'currency'],
+  labelNames: ['wkn', 'currency', 'name'],
   registers: [register], // Use the custom registry
 });
 const shareCount = new promClient.Gauge({
