@@ -1,5 +1,5 @@
 const promClient = require('prom-client');
-const { chromium } = require('playwright');
+const { firefox } = require('playwright');
 const http = require('http');
 const process = require('process');
 
@@ -81,7 +81,7 @@ server.listen(port, () => {
 });
 
 (async () => {
-  const browser = await chromium.launch({
+  const browser = await firefox.launch({
       slowMo: 1000,
       headless: headless, args: ['--single-process', '--disable-gpu']
   });
