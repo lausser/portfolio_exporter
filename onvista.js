@@ -104,8 +104,11 @@ server.listen(port, () => {
     console.log("Loginknopf gedrueckt");
   }
   await page.getByRole('link', { name: 'my onvista' }).first().click();
+  console.log("my onvista geklickt");
   await page.getByRole('link', { name: 'Musterdepot', exact: true }).click();
+  console.log("Musterdepot geklickt");
   const labelElement = await page.locator('label[for="select-portfolio"]');
+  console.log("select-portfolio gefunden");
 
   let newIntervalValue = 1000 * 60 * 5;
   let intervalValue = 0;
@@ -171,18 +174,14 @@ server.listen(port, () => {
         let value = (await row.locator('td:nth-child(11) data').first().getAttribute("value")).trim();
         console.log(`Im Portfolio ${portfolio} sind ${count} Stueck ${wkn} (${company_name}) und eins davon war vor ${ageInSeconds}s ${price}${currency} wert`);
         shareCount.labels({wkn: wkn, portfolio: portfolio.toLowerCase()}).set(count);
-        //stockPrice.labels({wkn: wkn, currency: currency}).set(price);
         stockPrice.labels({wkn: wkn, currency: "EUR", name: company_name}).set(value / count); 
         lastPriceAge.labels({wkn: wkn}).set(ageInSeconds);
       }
-      //await page.waitForSelector('button:has-text("Signale") span');
-      //await page.waitForTimeout(1000);
-      //await page.locator('button:has-text("Signale") span').click();
-      // Wait for the appearance of the "Signal hinzufügen" button
-      //await page.waitForSelector('.button--primary .button__inner:has-text("Signal hinzufügen")');
       let startTime = performance.now();
       await page.locator('span').filter({ hasText: 'Bestand' }).click();
+      console.log("BestandButton geklickt");
       await page.getByText('Signale');
+      console.log("SignaleButton gefunden");
       let endTime = performance.now();
       updateDuration.labels({portfolio: portfolio.toLowerCase()}).set((endTime - startTime) / 1000.0);
       console.log("refresh "+portfolio);
