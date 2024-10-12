@@ -88,7 +88,8 @@ server.listen(port, () => {
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto('https://www.onvista.de/');
-  await page.frameLocator('iframe[title="SP Consent Message"]').getByLabel('Zustimmen', { exact: true }).click();
+  //await page.frameLocator('iframe[title="Notice Message App"]').getByLabel('Akzeptieren', { exact: true }).click();
+  await page.frameLocator('iframe[title="Iframe title"]').getByLabel('Akzeptieren').click();
   if (await page.getByRole('button', { name: 'Anmelden' }).count() > 0) {
     console.log("Anmeldebutton entdeckt")
     await page.getByRole('button', { name: 'Anmelden' }).click();
@@ -180,8 +181,8 @@ server.listen(port, () => {
       // Wait for the appearance of the "Signal hinzufügen" button
       //await page.waitForSelector('.button--primary .button__inner:has-text("Signal hinzufügen")');
       let startTime = performance.now();
-      await page.locator('button:has-text("Bestand") span').click();
-      await page.waitForSelector('button:has-text("Signale") span');
+      await page.locator('span').filter({ hasText: 'Bestand' }).click();
+      await page.getByText('Signale');
       let endTime = performance.now();
       updateDuration.labels({portfolio: portfolio.toLowerCase()}).set((endTime - startTime) / 1000.0);
       console.log("refresh "+portfolio);
