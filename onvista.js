@@ -167,9 +167,13 @@ server.listen(port, () => {
         count = parseFloat(count);
         let price = (await row.locator('td:nth-child(8) data').getAttribute("value")).trim();
         price = parseFloat(price);
-        let timestampElement = await row.locator('td:nth-child(8) time').getAttribute('datetime');
-        let parsedTimestamp = new Date(timestampElement);
-        let ageInSeconds = (currentTime - parsedTimestamp) / 1000;
+        let ageInSeconds = 3600 * 24 * 365;
+        if (await row.locator('td:nth-child(8) time').count()>0) {
+          // some positions are no longer tradeable, the timestamp is then missing.
+          let timestampElement = await row.locator('td:nth-child(8) time').getAttribute('datetime');
+          let parsedTimestamp = new Date(timestampElement);
+          ageInSeconds = (currentTime - parsedTimestamp) / 1000;
+        }
         let currency = (await row.locator('td:nth-child(8) data span').textContent()).trim();
         let value = (await row.locator('td:nth-child(11) data').first().getAttribute("value")).trim();
         console.log(`Im Portfolio ${portfolio} sind ${count} Stueck ${wkn} (${company_name}) und eins davon war vor ${ageInSeconds}s ${price}${currency} wert`);
